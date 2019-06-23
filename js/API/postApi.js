@@ -24,7 +24,7 @@ class PostApi {
   add(post) {
 
     const url = `${AppConstants.API_URL}/${this.getResourceName()}`;
-    return fetchClient.get(url, post);
+    return fetchClient.post(url, post);
 
   }
 
