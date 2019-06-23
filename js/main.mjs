@@ -178,6 +178,7 @@ const init = async () => {
   //post detail -> lấy postId -> fetch postdetail -> render post -> update edit link
 
   // fetch data -> loop data -> render -> event -> click -> e.stopPropagation() on edit -> update addlink 
+  // add update - get post id , get post detail , fill form banner - handle form submit - update post -update viewdetail link
   try {
     const datas = await postApi.getAll();
 
