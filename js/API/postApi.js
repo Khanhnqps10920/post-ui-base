@@ -37,7 +37,7 @@ class PostApi {
 
   remove(postId) {
 
-    const url = `${AppConstants.API_URL}/${this.getResourceName()}/${post.id}`;
+    const url = `${AppConstants.API_URL}/${this.getResourceName()}/${postId}`;
     return fetchClient.delete(url);
 
   }

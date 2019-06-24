@@ -2,6 +2,7 @@
 
 import AppConstants from "./appConstants.js";
 import postApi from "./API/postApi.js";
+import utils from "./utils.js";
 
 
 
@@ -98,10 +99,28 @@ const checkTextLength = (text, length) => {
   return textLength;
 }
 
-const randomNumber = (number) => {
-  const random = Math.trunc(Math.random() * number);
+const handleRemoveBtnClick = async (e, postItem) => {
 
-  return random;
+  try {
+    const postListElement = getPostList();
+
+    if (postItem && postListElement) {
+
+      const confirmMess = 'B muốn xóa post này hẻ ? thiệt hk';
+
+      if (window.confirm(confirmMess)) {
+
+        //gọi id nè
+        await postApi.remove(postItem.id);
+
+        window.location.reload();
+      }
+
+    }
+  } catch (error) {
+    Alert('lỗi nè', error);
+  }
+
 }
 
 const buildPostItem = (obj) => {
@@ -133,6 +152,54 @@ const buildPostItem = (obj) => {
     srcImgTest.push('400', '117?grayscale');
     // srcImgTest.join('/') hk đc 
     imageItemElement.src = srcImgTest.join('/');
+  }
+
+  //set post author
+  const postAuthorElement = postItemElement.querySelector('#postItemAuthor');
+  if (postAuthorElement) {
+    postAuthorElement.innerText = obj.author;
+  }
+
+  //set time 
+  const postTimeElement = postItemElement.querySelector('#postItemTimeSpan');
+  if (postTimeElement) {
+    postTimeElement.innerText = `- ${utils.formatDate(obj.updatedAt)}`;
+  }
+
+  //set event click post
+  const postItem = postItemElement.querySelector('#postItem');
+  if (postItem) {
+    postItem.addEventListener('click', (e) => {
+
+      const postItemUrl = `post-detail.html?postId=${obj.id}`;
+
+      window.location = postItemUrl;
+    })
+  }
+
+  //set event click btn edit
+
+  const postItemEditBtn = postItemElement.querySelector('#postItemEdit');
+  if (postItemEditBtn) {
+    postItemEditBtn.addEventListener('click', (e) => {
+
+      const postItemUrl = `post-detail.html?postId=${obj.id}`;
+
+      window.location = postItemUrl;
+
+      e.stopPropagation();
+    })
+  }
+
+  //set event click remove btn
+  const postItemRemoveBtn = postItemElement.querySelector('#postItemRemove');
+  if (postItemRemoveBtn) {
+    postItemRemoveBtn.addEventListener('click', (e) => {
+
+      handleRemoveBtnClick(e, obj);
+
+      e.stopPropagation();
+    })
   }
 
   return postItemElement;
@@ -193,10 +260,10 @@ const init = async () => {
       }
     };
   } catch (error) {
-    console.log('Cant fetch list', error);
+    alert('Lỗi nè', error);
   }
 
-  postApi.getAll().then(postLists => console.log(postLists));
+  // postApi.getAll().then(postLists => console.log(postLists));
 }
 
 init();
