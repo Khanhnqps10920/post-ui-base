@@ -28,67 +28,6 @@ import utils from "./utils.js";
 
 
 
-// getPostList().then(data => console.log(data));
-
-
-//await chir dung trong ham async
-// const getPostListAsync = async () => {
-//   const options = {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//   };
-
-//   const response = await fetch('https://js-post-api.herokuapp.com/api/posts', options);
-
-//   if (response.status >= 200 && response.status < 300) {
-//     // response.json().then(data => console.log(data));
-//     return response.json();
-//   };
-
-
-// };
-
-// const getPostDetail = async (postId) => {
-//   const options = {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     }
-//   }
-
-//   const url = `${AppConstants.API_URL}/posts/${postId}`;
-
-//   const response = await fetch(url, options);
-//   if (response.status >= 200 && response.status < 300) {
-//     return response.json();
-//   }
-
-// };
-
-// const updatePost = async (post) => {
-//   const options = {
-//     method: 'PATCH',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(post),
-//   }
-
-//   const url = `${AppConstants.API_URL}/posts/${post.id}`;
-
-//   const response = await fetch(url, options);
-//   if (response.status >= 200 && response.status < 300) {
-//     return response.json();
-//   }
-
-// };
-// // fetch return promise
-
-
-
-
 const getPostList = () => document.querySelector('#postsList');
 
 const checkTextLength = (text, length) => {
@@ -183,7 +122,7 @@ const buildPostItem = (obj) => {
   if (postItemEditBtn) {
     postItemEditBtn.addEventListener('click', (e) => {
 
-      const postItemUrl = `post-detail.html?postId=${obj.id}`;
+      const postItemUrl = `add-edit-post.html?postId=${obj.id}`;
 
       window.location = postItemUrl;
 
@@ -203,67 +142,54 @@ const buildPostItem = (obj) => {
   }
 
   return postItemElement;
+
 }
 
 // -----------------------
 // MAIN LOGIC
 // -----------------------
 const init = async () => {
-  // Write your logic here ....
-  // const data = await getPostListAsync();
-  // const post = await getPostDetail('1356b24a-8b63-41dc-9bbe-1bfd5f4a219a');
-  // console.log(data, post);
-
-  // post.author = 'KhanhNguyen';
-  // const updatedPost = await updatePost(post);
-  // console.log(updatedPost);
-
-  // const postList = await postApi.getAll();
-
-  // console.log(postList);
-
-  // const post = await postApi.getDetail('1356b24a-8b63-41dc-9bbe-1bfd5f4a219a');
-  // console.log(post);
-
-
-  // const person1 = {
-  //   title: 'hellonenenenene',
-  //   author: 'khanh',
-  //   imageUrl: '#',
-  // }
-
-  // await postApi.add(person1);
-
-  // const postListAgain = await postApi.getAll();
-
-  // console.log(postListAgain);
-
-  // let search = location.search;
-
-  // console.log(search);
 
   //post detail -> lấy postId -> fetch postdetail -> render post -> update edit link
 
   // fetch data -> loop data -> render -> event -> click -> e.stopPropagation() on edit -> update addlink 
   // add update - get post id , get post detail , fill form banner - handle form submit - update post -update viewdetail link
+
+  console.log(location.search);
+
   try {
-    const datas = await postApi.getAll();
 
+    const params = {
+      _sort: 'updatedAt',
+      _order: 'desc',
+      _limit: 6,
+    }
+    const paramsString = new URLSearchParams(params);
+    const datas = await postApi.getAll(paramsString.toString());
     const postsList = getPostList();
+    console.log(datas);
+    // because reponse return obj 
+    const { data } = datas;
 
-    if (datas && postsList) {
-      if (Array.isArray(datas)) {
-        for (const data of datas) {
-          const postItemElement = buildPostItem(data);
-          postsList.appendChild(postItemElement);
+    if (data && postsList) {
+      if (Array.isArray(data)) {
+        for (const item of data) {
+          const postItemElement = buildPostItem(item);
+          if (postItemElement) {
+            postsList.appendChild(postItemElement);
+          } else {
+            console.log('lỗi nè');
+          }
         }
       }
     };
   } catch (error) {
-    alert('Lỗi nè', error);
+    console.log('Lỗi nè', error);
   }
 
   // postApi.getAll().then(postLists => console.log(postLists));
 }
 
 init();
+
+

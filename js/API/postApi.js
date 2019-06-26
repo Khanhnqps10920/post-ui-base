@@ -7,10 +7,11 @@ class PostApi {
     return 'posts';
   }
 
-  getAll() {
+  getAll(params) {
 
     const url = `${AppConstants.API_URL}/${this.getResourceName()}`;
-    return fetchClient.get(url);
+
+    return fetchClient.get(url, params);
 
   }
 

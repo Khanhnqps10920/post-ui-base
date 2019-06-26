@@ -23,7 +23,10 @@ const request = async (url, options) => {
 
 }
 
-const get = (url, params) => request(url, { method: 'GET' });
+const get = (url, params) => {
+  const newUrl = params ? `${url}?${params}` : url;
+  return request(newUrl, { method: 'GET' });
+};
 
 const post = (url, body) => request(url, {
   body: JSON.stringify(body),
