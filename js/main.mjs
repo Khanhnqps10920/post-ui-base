@@ -145,6 +145,32 @@ const buildPostItem = (obj) => {
 
 }
 
+
+const postPagionation = async (pagination) => {
+  const { _page, _limit, _totalRows } = pagination;
+
+  const config = {
+    _page,
+    _limit,
+    _totalRows
+  }
+  const totalPage = Math.ceil(config._totalRows / config._limit);
+
+  const pre = document.querySelector('.pre');
+  const next = document.querySelector('.next');
+  if (pre) {
+    pre.addEventListener('click', (e) => {
+      let prePage = (config._page - 1) >= 1 ? --config._page : config._page;
+      pre.href = `?_page=${prePage}&_limit=${_limit}`;
+    });
+  }
+  if (next) {
+    next.addEventListener('click', (e) => {
+      let nextPage = (config._page + 1) < totalPage ? ++config._page : totalPage;
+      next.href = `?_page=${nextPage}&_limit=${_limit}`;
+    });
+  }
+}
 // -----------------------
 // MAIN LOGIC
 // -----------------------
@@ -159,19 +185,24 @@ const init = async () => {
 
   try {
 
+    const limit = new URLSearchParams(window.location.search).get('_limit');
+    const page = new URLSearchParams(window.location.search).get('_page');
+
     const params = {
       _sort: 'updatedAt',
       _order: 'desc',
-      _limit: 6,
+      _limit: limit || 6,
+      _page: page || 1,
     }
     const paramsString = new URLSearchParams(params);
     const datas = await postApi.getAll(paramsString.toString());
     const postsList = getPostList();
     console.log(datas);
     // because reponse return obj 
-    const { data } = datas;
+    const { data, pagination } = datas;
 
-    if (data && postsList) {
+    if (data && postsList && pagination) {
+      postPagionation(pagination);
       if (Array.isArray(data)) {
         for (const item of data) {
           const postItemElement = buildPostItem(item);
@@ -191,6 +222,5 @@ const init = async () => {
 }
 
 init();
-
 
 
