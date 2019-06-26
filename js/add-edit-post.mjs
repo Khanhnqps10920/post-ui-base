@@ -30,6 +30,8 @@ const setFormValue = (post) => {
     description: post.description
   }
   //set post detail value by control name
+  const formPost = getPostForm();
+
   const controlNameList = ['title', 'author', 'description'];
   for (const controlName of controlNameList) {
     const formInput = formPost.querySelector(`[name=${controlName}]`);
@@ -79,8 +81,31 @@ const formValidation = () => {
   return isValidate;
 
 }
+const handleUpdateSubmit = async (postId) => {
+  const formValue = getFormValue();
+  const validate = formValidation();
 
-const handleFormSubmit = async (postId) => {
+  if (validate) {
+    try {
+      const newPost = {
+        id: postId,
+        ...formValue,
+      }
+      console.log(newPost);
+      if (postId) {
+        await postApi.update(newPost);
+        alert('Edit thành công nè');
+      }
+
+    } catch (error) {
+      console.log('lỗi nè', error);
+    }
+  }
+
+
+}
+
+const handleFormSubmit = async () => {
 
   //get form value 
   const formValue = getFormValue();
@@ -92,20 +117,15 @@ const handleFormSubmit = async (postId) => {
       const newPost = {
         ...formValue,
       }
-      if (postId) {
 
-        await postApi.add(newPost);
+      const postAdded = await postApi.add(newPost);
 
-        alert('Thay đổi thành công nè')
-      } else {
+      const postDetailUrl = `post-detail.html?postId=${postAdded.id}`;
 
-        const postAdded = await postApi.add(newPost);
+      window.location = postDetailUrl;
 
-        const postDetailUrl = `post-detail.html?postId=${postAdded.id}`;
+      alert('Thêm thành công nè, xem thông tin của trang');
 
-        window.location = postDetailUrl;
-        alert('Thêm thành công nè, xem thông tin của trang')
-      }
 
     } catch (error) {
       alert('lỗi nè', error);
@@ -114,13 +134,11 @@ const handleFormSubmit = async (postId) => {
 }
 
 
-
 const init = async () => {
 
   //get and add event for form  
-  const postForm = getPostForm();
-
-  const postId = window.location.search.substring(8);
+  const params = new URLSearchParams(window.location.search);
+  const postId = params.get('postId');
   if (postId) {
 
     //fetch post by postId
@@ -140,24 +158,27 @@ const init = async () => {
   }
   // get form post
 
+
   const postChangeBtn = document.querySelector('#postChangeImage');
   if (postChangeBtn) {
     postChangeBtn.addEventListener('click', handleRandomImg);
   }
 
+  const postForm = getPostForm();
   if (postForm) {
     postForm.addEventListener('submit', (e) => {
 
-      handleFormSubmit(e);
+      if (postId) {
+        handleUpdateSubmit(postId)
+      } else {
+        handleFormSubmit();
+      }
+
 
       e.preventDefault();
-
     })
-  }
-
-
-
-
+  };
 }
 
 init();
+
