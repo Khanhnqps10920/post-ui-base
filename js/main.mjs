@@ -190,10 +190,19 @@ const postPagionation = async (pagination) => {
     });
   }
 }
+
+const showText = () => {
+  document.querySelector('.text-load').style.display = 'block';
+  document.querySelector('.posts-nav').style.display = 'block';
+}
+const hideLoad = () => {
+  document.querySelector('.loading').style.display = 'none';
+}
 // -----------------------
 // MAIN LOGIC
 // -----------------------
 const init = async () => {
+
 
   //post detail -> lấy postId -> fetch postdetail -> render post -> update edit link
 
@@ -222,8 +231,9 @@ const init = async () => {
     const { data, pagination } = datas;
 
     if (data && postsList && pagination) {
+      // showLoad();
+      console.log(document.querySelector('.loading'));
       postPagionation(pagination);
-
       if (Array.isArray(data)) {
         for (const item of data) {
           const postItemElement = buildPostItem(item);
@@ -248,12 +258,13 @@ const init = async () => {
     };
   } catch (error) {
     console.log('Lỗi nè', error);
+
+  } finally {
+    hideLoad();
+    showText();
   }
 
 }
 
-alert('Lấy dữ liệu từ API hơi lâu nên chờ xí ngen :3');
-
 init();
-
 

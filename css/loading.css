@@ -1,0 +1,78 @@
+.loading {
+  position: absolute;
+  top:90%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  display:flex;
+  height: 40px; 
+  z-index: 1000;
+  align-items: center;
+}
+
+.obj {
+  width:6px;
+  height: 20px;
+  background:black;
+  margin: 0 3px;
+  border-radius:10px;
+  animation: loading 0.8s infinite;
+}
+
+.obj:nth-child(2){
+  animation-delay: 0.1s;
+}
+.obj:nth-child(3){
+  animation-delay: 0.2s;
+}
+.obj:nth-child(4){
+  animation-delay: 0.3s;
+}
+.obj:nth-child(5){
+  animation-delay: 0.4s;
+}
+.obj:nth-child(6){
+  animation-delay: 0.5s;
+}
+.obj:nth-child(7){
+  animation-delay: 0.6s;
+}
+.obj:nth-child(8){
+  animation-delay: 0.7s;
+}
+
+
+
+@keyframes loading {
+  0% {
+    height: 0;
+  }
+
+  50% {
+    height: 40px;
+  }
+
+  100% {
+    height: 0;
+  }
+  
+}
+
+
+.text-load {
+  display:none;
+  animation: goUp 0.8s 1;
+}
+
+@keyframes goUp {
+  0% {
+    transform: translateY(-50px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+.posts-nav{
+  display:none;
+}
