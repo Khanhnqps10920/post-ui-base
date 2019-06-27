@@ -57,3 +57,7 @@ ul {
 ::placeholder {
   font-style: italic;
 }
+
+.hello {
+  width:50%;
+}

@@ -158,15 +158,33 @@ const postPagionation = async (pagination) => {
 
   const pre = document.querySelector('.pre');
   const next = document.querySelector('.next');
+
   if (pre) {
+
+    if (config._page > 1) {
+      console.log('hello');
+      pre.classList.remove('disabled');
+    }
+
     pre.addEventListener('click', (e) => {
       let prePage = (config._page - 1) >= 1 ? --config._page : config._page;
+
       pre.href = `?_page=${prePage}&_limit=${_limit}`;
+
     });
   }
   if (next) {
+    if (config._page === totalPage) {
+      console.log('hello');
+      next.classList.add('disabled');
+    }
     next.addEventListener('click', (e) => {
       let nextPage = (config._page + 1) < totalPage ? ++config._page : totalPage;
+
+      // e.preventDefault();
+      // if (config._page === totalPage) {
+      //   next.classList.add('disabled');
+      // }
       next.href = `?_page=${nextPage}&_limit=${_limit}`;
     });
   }
