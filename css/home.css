@@ -102,3 +102,8 @@
 .posts-nav .page-item:not(.active) .page-link:hover {
   color: rgba(255, 106, 1, 1);
 }
+.square {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}

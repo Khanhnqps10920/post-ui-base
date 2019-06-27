@@ -1,5 +1,6 @@
 'use strict';
 
+import anime from "../anime-master/lib/anime.es.js"
 import AppConstants from "./appConstants.js";
 import postApi from "./API/postApi.js";
 import utils from "./utils.js";
@@ -220,7 +221,9 @@ const init = async () => {
     const { data, pagination } = datas;
 
     if (data && postsList && pagination) {
+
       postPagionation(pagination);
+
       if (Array.isArray(data)) {
         for (const item of data) {
           const postItemElement = buildPostItem(item);
@@ -231,13 +234,24 @@ const init = async () => {
           }
         }
       }
+
+      anime({
+        targets: 'ul.posts-list > li',
+        translateY: [
+          { value: 170, duration: 0 },
+          { value: 0, duration: 500 },
+        ],
+        delay: anime.stagger(150, { direction: 'reverse' }),
+        easing: 'linear'
+      });
+
     };
   } catch (error) {
     console.log('Lỗi nè', error);
   }
 
-  // postApi.getAll().then(postLists => console.log(postLists));
 }
+
 
 init();
 
