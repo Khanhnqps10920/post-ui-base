@@ -204,6 +204,7 @@ const init = async () => {
 
   try {
 
+
     const limit = new URLSearchParams(window.location.search).get('_limit');
     const page = new URLSearchParams(window.location.search).get('_page');
 
@@ -221,7 +222,6 @@ const init = async () => {
     const { data, pagination } = datas;
 
     if (data && postsList && pagination) {
-
       postPagionation(pagination);
 
       if (Array.isArray(data)) {
@@ -238,8 +238,8 @@ const init = async () => {
       anime({
         targets: 'ul.posts-list > li',
         translateY: [
-          { value: 170, duration: 0 },
-          { value: 0, duration: 500 },
+          { value: 270, duration: 0 },
+          { value: 0, duration: 750 },
         ],
         delay: anime.stagger(150, { direction: 'reverse' }),
         easing: 'linear'
@@ -252,6 +252,7 @@ const init = async () => {
 
 }
 
+alert('Lấy dữ liệu từ API hơi lâu nên chờ xí ngen :3');
 
 init();
 
