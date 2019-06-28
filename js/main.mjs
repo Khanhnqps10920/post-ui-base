@@ -190,7 +190,7 @@ const postPagionation = async (pagination) => {
     });
   }
 }
-
+221
 const showText = () => {
   document.querySelector('.text-load').style.display = 'block';
   document.querySelector('.posts-nav').style.display = 'block';
@@ -248,11 +248,11 @@ const init = async () => {
       anime({
         targets: 'ul.posts-list > li',
         translateY: [
-          { value: 270, duration: 0 },
+          { value: 250, duration: 0 },
           { value: 0, duration: 750 },
         ],
-        delay: anime.stagger(150, { direction: 'reverse' }),
-        easing: 'linear'
+        delay: anime.stagger(150),
+        easing: 'linear',
       });
 
     };

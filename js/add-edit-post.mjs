@@ -57,7 +57,7 @@ const handleRandomImg = () => {
   console.log(imageUrl);
 }
 
-const formValidation = () => {
+const validateForm = () => {
 
   //create flag 
   let isValidate = true;
@@ -79,22 +79,36 @@ const formValidation = () => {
   }
 
   return isValidate;
-
 }
+
 const handleUpdateSubmit = async (postId) => {
   const formValue = getFormValue();
-  const validate = formValidation();
-
-  if (validate) {
+  const isValid = validateForm();
+  let hasChanges = false;
+  if (isValid) {
     try {
       const newPost = {
-        id: postId,
         ...formValue,
-      }
-      console.log(newPost);
+        id: postId
+      };
+
       if (postId) {
-        await postApi.update(newPost);
-        alert('Edit thành công nè');
+
+        const post = await postApi.getDetail(postId);
+
+        for (const key in newPost) {
+          if (newPost[key] !== post[key]) {
+            hasChanges = true;
+          }
+        }
+
+        if (!hasChanges) {
+          alert('Hk có gì thay đổi cả');
+          // console.log(flag);
+        } else {
+          await postApi.update(newPost);
+          alert('Edit thành công nè');
+        }
       }
 
     } catch (error) {
@@ -109,7 +123,7 @@ const handleFormSubmit = async () => {
 
   //get form value 
   const formValue = getFormValue();
-  const validate = formValidation();
+  const validate = validateForm();
 
   if (validate) {
     try {
@@ -169,7 +183,7 @@ const init = async () => {
     postForm.addEventListener('submit', (e) => {
 
       if (postId) {
-        handleUpdateSubmit(postId)
+        handleUpdateSubmit(postId);
       } else {
         handleFormSubmit();
       }
