@@ -153,6 +153,7 @@ const init = async () => {
   //get and add event for form  
   const params = new URLSearchParams(window.location.search);
   const postId = params.get('postId');
+  //mode edit
   if (postId) {
 
     //fetch post by postId

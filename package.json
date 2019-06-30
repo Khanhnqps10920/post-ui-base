@@ -1,0 +1,22 @@
+{
+  "name": "post-ui-base",
+  "version": "1.0.0",
+  "description": "View live demo: [https://paulnguyen-mn.github.io/posts-ui/](https://paulnguyen-mn.github.io/posts-ui/)\r This simple website has 3 pages:\r - Home page: `/`\r - Add/Edit a post page: `/add-edit-post.html`\r - Post detail page: `/post-detail.html`",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Khanhnqps10920/post-ui-base.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Khanhnqps10920/post-ui-base/issues"
+  },
+  "homepage": "https://github.com/Khanhnqps10920/post-ui-base#readme",
+  "dependencies": {
+    "query-string": "^6.8.1"
+  }
+}
